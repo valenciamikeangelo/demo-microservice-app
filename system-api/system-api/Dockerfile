@@ -1,4 +1,0 @@
-FROM 220.5.13.210:5000/etis/java
-CMD java ${JAVA_OPTS} -jar -Dfile.encoding=UTF-8 -Dserver.contextPath=/system -Dserver.port=80 system-api-0.0.1-SNAPSHOT.jar
-EXPOSE 80
-COPY system-api-0.0.1-SNAPSHOT.jar .
