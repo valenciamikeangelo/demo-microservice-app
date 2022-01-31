@@ -1,0 +1,80 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.caista.birapps.etis.system.keycloak.mapper.KeycloakUserEntityMapper">
+	<resultMap id="keycloakUserEntityMap" type="KeycloakUserEntityMap">
+		<id property="id" column="ID" />
+		<result property="username" column="USERNAME" />
+		<result property="email" column="EMAIL" />
+	</resultMap>
+
+	<select id="getPermittedUserByScope" resultMap="keycloakUserEntityMap">
+	<bind name="scopePattern" value="scope + '%'" />
+	
+		(
+			SELECT 
+			  UNIQUE(UE.EMAIL), UE.USERNAME, UE.ID
+			FROM 
+			  USER_ENTITY UE 
+			  INNER JOIN USER_ROLE_MAPPING URM ON UE.ID = URM.USER_ID 
+			WHERE 
+			  URM.ROLE_ID IN
+				(SELECT 
+				SUBSTR( SUBSTR(TO_CHAR(pc.VALUE), 0, INSTR(TO_CHAR(pc.VALUE), '","')-1) , 9) AS ID
+				FROM POLICY_CONFIG pc
+				INNER JOIN 
+					(
+						SELECT * FROM ASSOCIATED_POLICY 
+							WHERE POLICY_ID IN 
+							(SELECT ID FROM RESOURCE_SERVER_POLICY
+								WHERE ID  IN 
+									(SELECT ASSOCIATED_POLICY_ID FROM ASSOCIATED_POLICY ap 
+										WHERE ap.POLICY_ID = 
+											(SELECT ID FROM RESOURCE_SERVER_POLICY 
+												WHERE RESOURCE_SERVER_ID = (SELECT RESOURCE_SERVER_ID FROM RESOURCE_SERVER_RESOURCE WHERE NAME = #{resource}) 
+												AND NAME LIKE #{scopePattern}
+											)
+									)
+							)
+					) ap
+				ON pc.POLICY_ID = ap.ASSOCIATED_POLICY_ID
+				WHERE 
+				pc.NAME = 'roles')
+			)
+				
+			INTERSECT
+			
+			(
+			SELECT 
+			  UNIQUE(UE.EMAIL), UE.USERNAME, UE.ID
+			FROM 
+			  USER_ENTITY UE 
+			  INNER JOIN USER_GROUP_MEMBERSHIP UGM ON UE.ID = UGM.USER_ID
+			WHERE 
+			  UGM.GROUP_ID IN
+				(SELECT 
+				SUBSTR( SUBSTR(TO_CHAR(pc.VALUE), 0, INSTR(TO_CHAR(pc.VALUE), '","')-1) , 9) AS ID
+				FROM POLICY_CONFIG pc
+				INNER JOIN 
+					(
+						SELECT * FROM ASSOCIATED_POLICY 
+							WHERE POLICY_ID IN 
+							(SELECT ID FROM RESOURCE_SERVER_POLICY
+								WHERE ID  IN 
+									(SELECT ASSOCIATED_POLICY_ID FROM ASSOCIATED_POLICY ap 
+										WHERE ap.POLICY_ID = 
+											(SELECT ID FROM RESOURCE_SERVER_POLICY 
+												WHERE RESOURCE_SERVER_ID = (SELECT RESOURCE_SERVER_ID FROM RESOURCE_SERVER_RESOURCE WHERE NAME = #{resource}) 
+												AND NAME LIKE #{scopePattern}
+											)
+									)
+							)
+					) ap
+				ON pc.POLICY_ID = ap.ASSOCIATED_POLICY_ID
+				WHERE 
+				pc.NAME = 'groups')
+			)
+	</select>
+
+</mapper>

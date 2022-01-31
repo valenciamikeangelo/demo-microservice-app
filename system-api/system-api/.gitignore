@@ -1,0 +1,9 @@
+target/
+.settings/org.eclipse.core.resources.prefs
+.settings/
+.classpath
+.project
+logs/
+*.log
+bin/
+META-INF/

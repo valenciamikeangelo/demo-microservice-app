@@ -1,0 +1,523 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.caista.birapps</groupId>
+	<artifactId>etis-keycloak-adapter</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<version>${project.version}</version>
+	</properties>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-spring-security-adapter</artifactId>
+			<version>4.2.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-spring-boot-starter</artifactId>
+			<version>4.2.1.Final</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+			<version>4.2.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-server-spi</artifactId>
+			<version>4.2.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-authz-client</artifactId>
+			<version>4.2.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>3.1.3.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson2-provider</artifactId>
+			<version>3.1.3.Final</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>zsasx</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using keycloak-dev.json</echo>
+										<delete file="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<copy file="build-config/keycloak-admin-dev.properties" tofile="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<delete file="${project.build.outputDirectory}/keycloak.json" />
+										<copy file="build-config/keycloak-dev.json" tofile="${project.build.outputDirectory}/keycloak.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<copy file="build-config/keycloak-etis-trs-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<copy file="build-config/keycloak-etis-sa-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<copy file="build-config/keycloak-etis-tasks-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<copy file="build-config/keycloak-etis-tcr-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<copy file="build-config/keycloak-etis-report-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<copy file="build-config/keycloak-etis-rfp-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<copy file="build-config/keycloak-etis-tax-inquiry-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<copy file="build-config/keycloak-etis-crr-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<copy file="build-config/keycloak-etis-batch-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<copy file="build-config/keycloak-etis-audit-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<copy file="build-config/keycloak-etis-cms-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<copy file="build-config/keycloak-etis-tcs-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-auditselection.json" />
+										<copy file="build-config/keycloak-etis-auditselection-dev.json" tofile="${project.build.outputDirectory}/keycloak-etis-auditselection.json" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>test</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using keycloak-build-test.json</echo>
+										<delete file="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<copy file="build-config/keycloak-admin-test.properties" tofile="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<delete file="${project.build.outputDirectory}/keycloak.json" />
+										<copy file="build-config/keycloak-test.json" tofile="${project.build.outputDirectory}/keycloak.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<copy file="build-config/keycloak-etis-trs-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<copy file="build-config/keycloak-etis-sa-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<copy file="build-config/keycloak-etis-tasks-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<copy file="build-config/keycloak-etis-tcr-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<copy file="build-config/keycloak-etis-tcs-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<copy file="build-config/keycloak-etis-report-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<copy file="build-config/keycloak-etis-rfp-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<copy file="build-config/keycloak-etis-tax-inquiry-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<copy file="build-config/keycloak-etis-crr-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<copy file="build-config/keycloak-etis-batch-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<copy file="build-config/keycloak-etis-audit-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<copy file="build-config/keycloak-etis-cms-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-auditselection.json" />
+										<copy file="build-config/keycloak-etis-auditselection-test.json" tofile="${project.build.outputDirectory}/keycloak-etis-auditselection.json" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>integ</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using keycloak-build-integ.json</echo>
+										<delete file="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<copy file="build-config/keycloak-admin-integ.properties" tofile="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<delete file="${project.build.outputDirectory}/keycloak.json" />
+										<copy file="build-config/keycloak-integ.json" tofile="${project.build.outputDirectory}/keycloak.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<copy file="build-config/keycloak-etis-trs-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<copy file="build-config/keycloak-etis-sa-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<copy file="build-config/keycloak-etis-tasks-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<copy file="build-config/keycloak-etis-tcr-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<copy file="build-config/keycloak-etis-report-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<copy file="build-config/keycloak-etis-rfp-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<copy file="build-config/keycloak-etis-tax-inquiry-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<copy file="build-config/keycloak-etis-crr-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<copy file="build-config/keycloak-etis-batch-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<copy file="build-config/keycloak-etis-audit-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<copy file="build-config/keycloak-etis-cms-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<copy file="build-config/keycloak-etis-tcs-integ.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using keycloak-build-prod.json</echo>
+										<delete file="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<copy file="build-config/keycloak-admin-prod.properties" tofile="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<delete file="${project.build.outputDirectory}/keycloak.json" />
+										<copy file="build-config/keycloak-prod.json" tofile="${project.build.outputDirectory}/keycloak.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<copy file="build-config/keycloak-etis-trs-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<copy file="build-config/keycloak-etis-tcr-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<copy file="build-config/keycloak-etis-tcs-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<copy file="build-config/keycloak-etis-sa-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<copy file="build-config/keycloak-etis-tasks-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<copy file="build-config/keycloak-etis-report-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<copy file="build-config/keycloak-etis-rfp-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<copy file="build-config/keycloak-etis-tax-inquiry-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<copy file="build-config/keycloak-etis-crr-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<copy file="build-config/keycloak-etis-batch-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<copy file="build-config/keycloak-etis-audit-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<copy file="build-config/keycloak-etis-cms-prod.json" tofile="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>uatprem</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using keycloak-build-test.json</echo>
+										<delete file="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<copy file="build-config/keycloak-admin-uat-prem.properties" tofile="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<delete file="${project.build.outputDirectory}/keycloak.json" />
+										<copy file="build-config/keycloak-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<copy file="build-config/keycloak-etis-trs-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<copy file="build-config/keycloak-etis-sa-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<copy file="build-config/keycloak-etis-tasks-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<copy file="build-config/keycloak-etis-tcr-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<copy file="build-config/keycloak-etis-report-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<copy file="build-config/keycloak-etis-rfp-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<copy file="build-config/keycloak-etis-tax-inquiry-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<copy file="build-config/keycloak-etis-crr-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<copy file="build-config/keycloak-etis-audit-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<copy file="build-config/keycloak-etis-batch-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<copy file="build-config/keycloak-etis-cms-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<copy file="build-config/keycloak-etis-tcs-uat-prem.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>stg</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using keycloak-build-stg.json</echo>
+										<delete file="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<copy file="build-config/keycloak-admin-stg.properties" tofile="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<delete file="${project.build.outputDirectory}/keycloak.json" />
+										<copy file="build-config/keycloak-stg.json" tofile="${project.build.outputDirectory}/keycloak.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<copy file="build-config/keycloak-etis-trs-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<copy file="build-config/keycloak-etis-tcr-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<copy file="build-config/keycloak-etis-tcs-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<copy file="build-config/keycloak-etis-sa-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<copy file="build-config/keycloak-etis-tasks-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<copy file="build-config/keycloak-etis-report-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<copy file="build-config/keycloak-etis-rfp-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<copy file="build-config/keycloak-etis-tax-inquiry-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<copy file="build-config/keycloak-etis-crr-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<copy file="build-config/keycloak-etis-batch-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<copy file="build-config/keycloak-etis-audit-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<copy file="build-config/keycloak-etis-cms-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-auditselection.json" />
+										<copy file="build-config/keycloak-etis-auditselection-stg.json" tofile="${project.build.outputDirectory}/keycloak-etis-auditselection.json" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>uat</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using keycloak-build-uat.json</echo>
+										<delete file="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<copy file="build-config/keycloak-admin-uat.properties" tofile="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<delete file="${project.build.outputDirectory}/keycloak.json" />
+										<copy file="build-config/keycloak-uat.json" tofile="${project.build.outputDirectory}/keycloak.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<copy file="build-config/keycloak-etis-trs-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<copy file="build-config/keycloak-etis-tcr-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<copy file="build-config/keycloak-etis-tcs-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<copy file="build-config/keycloak-etis-sa-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<copy file="build-config/keycloak-etis-tasks-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<copy file="build-config/keycloak-etis-report-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<copy file="build-config/keycloak-etis-rfp-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<copy file="build-config/keycloak-etis-tax-inquiry-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<copy file="build-config/keycloak-etis-crr-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<copy file="build-config/keycloak-etis-batch-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<copy file="build-config/keycloak-etis-audit-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<copy file="build-config/keycloak-etis-cms-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-auditselection.json" />
+										<copy file="build-config/keycloak-etis-auditselection-uat.json" tofile="${project.build.outputDirectory}/keycloak-etis-auditselection.json" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>trn</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using keycloak-build-trn.json</echo>
+										<delete file="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<copy file="build-config/keycloak-admin-trn.properties" tofile="${project.build.outputDirectory}/keycloak-admin.properties" />
+										<delete file="${project.build.outputDirectory}/keycloak.json" />
+										<copy file="build-config/keycloak-trn.json" tofile="${project.build.outputDirectory}/keycloak.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<copy file="build-config/keycloak-etis-trs-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-trs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<copy file="build-config/keycloak-etis-tcr-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<copy file="build-config/keycloak-etis-tcs-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-tcs.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<copy file="build-config/keycloak-etis-sa-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-sa.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<copy file="build-config/keycloak-etis-tasks-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-tasks.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<copy file="build-config/keycloak-etis-report-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-report.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<copy file="build-config/keycloak-etis-rfp-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-rfp.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<copy file="build-config/keycloak-etis-tax-inquiry-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-tax-inquiry.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<copy file="build-config/keycloak-etis-crr-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-crr.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<copy file="build-config/keycloak-etis-batch-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-batch.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<copy file="build-config/keycloak-etis-tas-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-tas.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<copy file="build-config/keycloak-etis-audit-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-audit.json" />
+										<delete file="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+										<copy file="build-config/keycloak-etis-cms-trn.json" tofile="${project.build.outputDirectory}/keycloak-etis-cms.json" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
+</project>

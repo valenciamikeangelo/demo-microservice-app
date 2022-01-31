@@ -1,0 +1,11 @@
+{
+  "realm": "eTIS",
+  "auth-server-url": "https://corp-msc-vm28.caimsc.compaid.com/auth",
+  "ssl-required": "none",
+  "resource": "etis-tas",
+  "credentials": {
+    "secret": "d8236f60-4494-42f0-9dd4-a7c18b26307e"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}

@@ -1,0 +1,13 @@
+{
+	"realm": "eTIS",
+	"auth-server-url": "http://220.5.13.120:8080/auth",
+	"ssl-required": "none",
+	"resource": "etis-rfp",
+	"credentials": {
+		"secret": "edfb49d3-a515-4445-b21e-21a12e9794b8"
+	},
+	"confidential-port": 0,
+	"policy-enforcer": {
+		
+	}
+}

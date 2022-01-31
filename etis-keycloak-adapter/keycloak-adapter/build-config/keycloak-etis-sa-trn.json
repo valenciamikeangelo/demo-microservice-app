@@ -1,0 +1,11 @@
+{
+  "realm": "eTIS",
+  "auth-server-url": "http://172.16.129.202/auth",
+  "ssl-required": "none",
+  "resource": "etis-sa",
+  "credentials": {
+    "secret": "99c8899e-e83c-475e-ad2f-e83048129213"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}

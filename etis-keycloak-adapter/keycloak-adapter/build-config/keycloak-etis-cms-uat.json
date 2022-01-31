@@ -1,0 +1,12 @@
+{
+  "realm": "eTIS",
+  "auth-server-url": "https://172.16.129.115/auth",
+  "ssl-required": "none",
+  "resource": "etis-cms",
+  "credentials": {
+    "secret": "0e810f5b-0355-4038-a00d-0bf888070135"
+  },
+  "use-resource-role-mappings": true,
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}

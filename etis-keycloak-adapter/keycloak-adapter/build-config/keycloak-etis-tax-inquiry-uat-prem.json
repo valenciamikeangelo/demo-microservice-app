@@ -1,0 +1,11 @@
+{
+	"realm": "eTIS",
+	"auth-server-url": "https://corp-msc-vm28.caimsc.compaid.com/auth",
+	"ssl-required": "none",
+	"resource": "etis-tax-inquiry",
+	"credentials": {
+		"secret": "ccdd78b4-4f4c-4188-ae07-2e00105ab2aa"
+	},
+	"confidential-port": 0,
+	"policy-enforcer": {}
+}

@@ -1,0 +1,11 @@
+{
+  "realm": "eTIS",
+  "auth-server-url": "http://220.5.13.119:8080/auth",
+  "ssl-required": "none",
+  "resource": "etis-tcs",
+  "credentials": {
+    "secret": "fbab7154-a8ad-4c8e-93ba-e392255beca9"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}

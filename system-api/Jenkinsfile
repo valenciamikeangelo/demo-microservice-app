@@ -1,0 +1,152 @@
+node {
+try{
+    notifyBuild('STARTED')
+    stage('Checkout') {
+        checkout([
+            $class: 'GitSCM',
+            branches: scm.branches,
+            extensions: scm.extensions + [[$class: 'CleanCheckout']],
+            userRemoteConfigs: scm.userRemoteConfigs,
+        depth: 10
+        ])
+    }
+	
+    stage('Build UAT') {
+           if (env.BRANCH_NAME == "system-api") {
+             sh """#!/bin/bash -xe
+			 cd system-api
+             mvn versions:set -DnewVersion=${params.VERSION}
+             mvn clean install -P${params.PROFILE}"""
+			}
+    }
+    
+    stage('Sonarqube') {
+    if(params.TRIGGER_SONAR){
+      def scannerHome = tool 'SonarQubeScanner'
+      withSonarQubeEnv('sonarqube') {
+        sh "${scannerHome}/bin/sonar-scanner"
+        }
+      }
+	}
+    
+    stage('Build Artifact') {
+            sh """#!/bin/bash -xe
+			 cd system-api
+             cp target/system-api-${params.VERSION}-exec.jar /opt/jars/system-api/system-api-${params.VERSION}.jar
+             cp Dockerfile /opt/jars/system-api/Dockerfile
+             cp -r /opt/jars/certificate/* /opt/jars/system-api/certificate/"""
+           if(params.PROFILE=="uatprem"){
+           sh """#!/bin/bash -xe
+           cd /opt/jars/system-api/
+           docker build -t 220.5.13.210:5000/etis/etis-system-api-uatprem .
+		   docker push 220.5.13.210:5000/etis/etis-system-api-uatprem"""
+			}
+			if(params.PROFILE=="test"){
+           sh """#!/bin/bash -xe
+           cd /opt/jars/system-api/
+           docker build -t 220.5.13.210:5000/etis/etis-system-api .
+		   docker push 220.5.13.210:5000/etis/etis-system-api"""
+			}
+      if(params.PROFILE=="dev"){
+           sh """#!/bin/bash -xe
+           cd /opt/jars/system-api/
+           docker build -t 220.5.13.210:5000/etis/etis-system-api-dev .
+		   docker push 220.5.13.210:5000/etis/etis-system-api-dev"""
+			}
+
+      if(params.PROFILE=="integ"){
+           sh """#!/bin/bash -xe
+           cd /opt/jars/system-api/
+           docker build -t 220.5.13.210:5000/etis/etis-system-api-integ .
+		   docker push 220.5.13.210:5000/etis/etis-system-api-integ"""
+			}
+	}
+  stage('Build Next Project'){
+    build job: 'task-manager-bpmn', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+	  build job: 'audit-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+	  build job: 'reports-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+	  build job: 'taxpayer-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+	  build job: 'tcs-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+	  build job: 'reference-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+    build job: 'trs-batch-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+    build job: 'batch-integration-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+    build job: 'tcr-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+    build job: 'cms-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+    build job: 'tas-batch-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+    build job: 'tcs-batch-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+  	build job: 'tas-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+    build job: 'cms-batch-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+  }
+	
+
+
+    properties([
+    [$class: 'ParametersDefinitionProperty',
+    parameterDefinitions: [
+      [$class: 'StringParameterDefinition',
+        name: 'VERSION',
+        defaultValue: '0.0.1-SNAPSHOT',
+        description: 'version'],
+        [$class: 'StringParameterDefinition',
+        name: 'PROFILE',
+        defaultValue: 'dev',
+        description: 'Profile'],
+         [$class: 'BooleanParameterDefinition',
+        name: 'TRIGGER_SONAR',
+        defaultValue: false,
+        description: 'SONAR Trigger']]
+    ],
+    [$class: 'BuildDiscarderProperty',
+    strategy: [
+        $class: 'LogRotator',
+        artifactDaysToKeepStr: '',
+        artifactNumToKeepStr: '',
+        daysToKeepStr: '1',
+        numToKeepStr: '3']
+    ]
+])
+
+}catch (e) {
+   // If there was an exception thrown, the build failed
+   currentBuild.result = "FAILED"
+   throw e
+ } finally {
+   // Success or failure, always send notifications
+   notifyBuild(currentBuild.result)
+
+            stage('Clear workspace'){
+           cleanWs();
+		   if(params.PROFILE=="uatprem" || params.PROFILE=="test" || params.PROFILE=="dev" || params.PROFILE=="integ"){
+           sh """#!/bin/bash -xe
+			 rm -rf /opt/jars/system-api/*.*
+			 """
+		   }
+    }
+ }
+}
+
+def notifyBuild(String buildStatus = 'STARTED') {
+ // build status of null means successful
+ buildStatus =  buildStatus ?: 'SUCCESSFUL'
+
+ // Default values
+ def colorName = 'RED'
+ def colorCode = '#FF0000'
+ def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+ def summary = "${subject} (${env.BUILD_URL})"
+
+ // Override default values based on build status
+ if (buildStatus == 'STARTED') {
+   color = 'YELLOW'
+   colorCode = '#FFFF00'
+ } else if (buildStatus == 'SUCCESSFUL') {
+   color = 'GREEN'
+   colorCode = '#00FF00'
+ } else {
+   color = 'RED'
+   colorCode = '#FF0000'
+ }
+
+ // Send notifications
+ slackSend (color: colorCode, message: summary)
+}

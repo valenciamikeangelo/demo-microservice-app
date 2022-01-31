@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+ 	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+    <typeAliases>        
+        <typeAlias alias="KeycloakUserEntityMap" type="com.caista.birapps.etis.domain.keycloak.KeycloakUserEntity"/>          
+        <package name="com.caista.birapps.etis.domain"/>
+    </typeAliases>
+    <mappers>		
+  		<mapper resource="mappers/keycloakuserentity.xml"/>  		
+    </mappers>
+</configuration>
