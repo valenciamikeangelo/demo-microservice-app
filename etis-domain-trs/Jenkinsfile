@@ -1,0 +1,74 @@
+node {
+
+try{
+
+    stage('Checkout') {
+        checkout([
+            $class: 'GitSCM',
+            branches: scm.branches,
+            extensions: scm.extensions + [[$class: 'CleanCheckout']],
+            userRemoteConfigs: scm.userRemoteConfigs,
+        depth: 10
+        ])
+    }
+	
+    stage('Build UAT') {
+    
+           if (env.BRANCH_NAME == "etis-domain-trs") {
+             sh """#!/bin/bash -xe
+             mvn versions:set -DnewVersion=${params.VERSION}
+             mvn clean install -X -P${params.PROFILE}"""
+            }
+    }
+
+    stage('Sonarqube') {
+    if(params.TRIGGER_SONAR){
+      def scannerHome = tool 'SonarQubeScanner'
+      withSonarQubeEnv('sonarqube') {
+        sh "${scannerHome}/bin/sonar-scanner"
+        }
+      }
+	}
+    
+       stage('Clear workspace'){
+           cleanWs();
+    }
+
+    properties([
+    [$class: 'ParametersDefinitionProperty',
+    parameterDefinitions: [
+      [$class: 'StringParameterDefinition',
+        name: 'VERSION',
+        defaultValue: '0.0.1-SNAPSHOT',
+        description: 'version'],
+        [$class: 'StringParameterDefinition',
+        name: 'PROFILE',
+        defaultValue: 'dev',
+        description: 'Profile'],
+         [$class: 'BooleanParameterDefinition',
+        name: 'TRIGGER_SONAR',
+        defaultValue: false,
+        description: 'SONAR Trigger']]
+    ],
+    [$class: 'BuildDiscarderProperty',
+    strategy: [
+        $class: 'LogRotator',
+        artifactDaysToKeepStr: '',
+        artifactNumToKeepStr: '',
+        daysToKeepStr: '1',
+        numToKeepStr: '3']
+    ]
+])
+
+}catch (e) {
+   // If there was an exception thrown, the build failed
+ 
+   throw e
+ } finally {
+   // Success or failure, always send notifications
+  stage('Clear workspace'){
+           cleanWs();
+    }
+ }
+
+}

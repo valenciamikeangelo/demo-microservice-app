@@ -1,0 +1,3 @@
+FROM 220.5.13.210:5000/etis/java
+CMD java ${JAVA_OPTS} -jar -Dfile.encoding=UTF-8 -Dserver.contextPath=/reference -Dserver.port=80 reference-api-0.0.1-SNAPSHOT-exec.jar
+COPY reference-api-0.0.1-SNAPSHOT-exec.jar .

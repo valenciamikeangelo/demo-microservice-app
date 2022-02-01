@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<aop:config>
+		<aop:aspect id="maintenanceAspect" ref="maintenanceAspect">
+			<!-- @around sysad log annotation -->
+			<aop:pointcut id="maintenancePointCut" expression="@annotation(maintLog)" />
+			<aop:around method="maintAuditLogAround" pointcut-ref="maintenancePointCut" />
+		</aop:aspect>
+
+		<aop:aspect id="referenceAspect" ref="referenceAspect">
+			<!-- @around sysad log annotation -->
+			<aop:pointcut id="referencePointCut" expression="@annotation(etisLog)" />
+			<aop:around method="refAuditLogAround" pointcut-ref="referencePointCut" />
+		</aop:aspect>
+		
+	</aop:config>
+
+	<bean id="maintenanceAspect"
+		class="com.caista.birapps.etis.reference.audit.aspect.MaintenanceAuditAspect"></bean>
+	<bean id="referenceAspect"
+		class="com.caista.birapps.etis.reference.audit.aspect.ReferenceAuditAspect"></bean>
+
+</beans>  

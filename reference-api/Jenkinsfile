@@ -1,0 +1,144 @@
+node {
+try{
+    notifyBuild('STARTED')
+    stage('Checkout') {
+        checkout([
+            $class: 'GitSCM',
+            branches: scm.branches,
+            extensions: scm.extensions + [[$class: 'CleanCheckout']],
+            userRemoteConfigs: scm.userRemoteConfigs,
+        depth: 10
+        ])
+    }
+	
+    stage('Build UAT') {
+           if (env.BRANCH_NAME == "reference-api") {
+             sh """#!/bin/bash -xe
+             mvn versions:set -DnewVersion=${params.VERSION}
+             mvn clean install -X -P${params.PROFILE}"""
+           }
+    }
+
+    stage('Sonarqube') {
+    if(params.TRIGGER_SONAR){
+      def scannerHome = tool 'SonarQubeScanner'
+      withSonarQubeEnv('sonarqube') {
+        sh "${scannerHome}/bin/sonar-scanner"
+        }
+      }
+	}
+
+if(!params.TRIGGER_SONAR){
+    stage('Build Artifact') {
+            sh """#!/bin/bash -xe    
+             cp target/reference-api-${params.VERSION}-exec.jar /opt/jars/reference-api/reference-api-${params.VERSION}-exec.jar
+             cp Dockerfile /opt/jars/reference-api/Dockerfile
+             cp -r /opt/jars/certificate/* /opt/jars/reference-api/certificate/"""
+           if(params.PROFILE=="uatprem"){
+           sh """#!/bin/bash -xe
+           cd /opt/jars/reference-api/
+           docker build -t 220.5.13.210:5000/etis/etis-reference-api-uatprem .
+		   docker push 220.5.13.210:5000/etis/etis-reference-api-uatprem"""
+			}
+			if(params.PROFILE=="test"){
+           sh """#!/bin/bash -xe
+           cd /opt/jars/reference-api/
+           docker build -t 220.5.13.210:5000/etis/etis-reference-api .
+		   docker push 220.5.13.210:5000/etis/etis-reference-api"""
+			}
+            if(params.PROFILE=="dev"){
+           sh """#!/bin/bash -xe
+           cd /opt/jars/reference-api/
+           docker build -t 220.5.13.210:5000/etis/etis-reference-api-dev .
+		   docker push 220.5.13.210:5000/etis/etis-reference-api-dev"""
+			}
+
+if(params.PROFILE=="integ"){
+           sh """#!/bin/bash -xe
+           cd /opt/jars/reference-api/
+           docker build -t 220.5.13.210:5000/etis/etis-reference-api-integ .
+		   docker push 220.5.13.210:5000/etis/etis-reference-api-integ"""
+			}
+
+	}
+}
+
+
+         stage('Build Next Project'){
+             build job: 'sysad-api',wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+             build job: 'crr-api', wait: false, parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: "${params.VERSION}"], [$class: 'StringParameterValue', name: 'PROFILE', value: "${params.PROFILE}"], [$class: 'BooleanParameterValue', name: 'TRIGGER_SONAR', value: "${params.TRIGGER_SONAR}"]]
+  }
+	
+
+
+    properties([
+    [$class: 'ParametersDefinitionProperty',
+    parameterDefinitions: [
+      [$class: 'StringParameterDefinition',
+        name: 'VERSION',
+        defaultValue: '0.0.1-SNAPSHOT',
+        description: 'version'],
+        [$class: 'StringParameterDefinition',
+        name: 'PROFILE',
+        defaultValue: 'dev',
+        description: 'Profile'],
+         [$class: 'BooleanParameterDefinition',
+        name: 'TRIGGER_SONAR',
+        defaultValue: false,
+        description: 'SONAR Trigger']]
+    ],
+    [$class: 'BuildDiscarderProperty',
+    strategy: [
+        $class: 'LogRotator',
+        artifactDaysToKeepStr: '',
+        artifactNumToKeepStr: '',
+        daysToKeepStr: '1',
+        numToKeepStr: '3']
+    ]
+])
+
+}catch (e) {
+   // If there was an exception thrown, the build failed
+   currentBuild.result = "FAILED"
+   throw e
+ } finally {
+   // Success or failure, always send notifications
+   notifyBuild(currentBuild.result)
+
+          stage('Clear workspace'){
+           cleanWs();
+		   if(params.PROFILE=="uatprem" || params.PROFILE=="test" || params.PROFILE=="dev" || params.PROFILE=="integ"){
+           sh """#!/bin/bash -xe
+			 rm -rf /opt/jars/reference-api/*.*
+			 """
+		   }
+    }
+ }
+}
+
+def notifyBuild(String status){
+status =  status ?: 'SUCCESSFUL'
+
+
+if (status == 'STARTED') {
+emailext body: "${status}: Branch ${env.BRANCH_NAME} build ${env.BUILD_NUMBER} with profile ${params.PROFILE} and version ${params.VERSION}", subject: "Jenkins Build ${status} : Job ${env.JOB_NAME}", to: '$DEFAULT_RECIPIENTS'
+
+}else{
+def commits = ""
+def filesChanged = ""
+for (int i = 0; i < currentBuild.rawBuild.changeSets.size(); i++) {
+    def entries = currentBuild.rawBuild.changeSets[i].items
+    for (int j = 0; j < entries.length; j++) {
+        def entry = entries[j]
+        echo "CHANGESETS"
+        commits += "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg} \n"
+        def files = new ArrayList(entry.affectedFiles)
+        for (int k = 0; k < files.size(); k++) {
+            def file = files[k]
+            filesChanged += "${file.editType.name} ${file.path} \n"
+        }
+    }
+}
+emailext body: "${status}: Branch ${env.BRANCH_NAME} build ${env.BUILD_NUMBER} with profile ${params.PROFILE} and version ${params.VERSION} \n CHANGESETS: \n ${commits} \n FILES: \n ${filesChanged }", subject: "Jenkins Build ${status} : Job ${env.JOB_NAME}", to: '$DEFAULT_RECIPIENTS'
+}
+}

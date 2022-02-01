@@ -1,0 +1,7 @@
+FROM 220.5.13.210:5000/etis/java
+ENV JAVA_HOME=/java/jdk1.8.0_144/jre/bin
+CMD java ${JAVA_OPTS} -jar -Dfile.encoding=UTF-8 -Dserver.contextPath=/reference -Dserver.port=80 reference-api-0.0.1-SNAPSHOT-UAT-PREM-exec.jar
+EXPOSE 80
+COPY reference-api-0.0.1-SNAPSHOT-UAT-PREM-exec.jar .
+COPY  certificate /etc/certificate
+RUN  echo "yes" | $JAVA_HOME/keytool -import -alias iris-wildcard -keystore /java/jdk1.8.0_144/jre/lib/security/cacerts -file /etc/certificate/iris-wildcard.der -storepass changeit  

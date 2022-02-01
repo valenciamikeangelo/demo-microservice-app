@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<util:map id="referenceCommandServiceMap" map-class="java.util.HashMap"
+		key-type="java.lang.String"
+		value-type="com.caista.birapps.etis.reference.service.ReferenceCommandService">
+		<entry key="GENDER">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceGenderServiceImpl" />
+		</entry>
+		<entry key="ACCOUNTING_PERIOD">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAccountingPeriodServiceImpl" />
+		</entry>
+		<entry key="PAYMENT_CHANNEL">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePaymentChannelServiceImpl" />
+		</entry>
+		<entry key="PAYMENT_MODE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePaymentModeServiceImpl" />
+		</entry>
+		<entry key="ATTACHMENT">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAttachmentServiceImpl" />
+		</entry>
+		<entry key="PAYMENT_MANNER">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePaymentMannerServiceImpl" />
+		</entry>
+		<entry key="PAYMENT_REASON">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePaymentReasonServiceImpl" />
+		</entry>
+		<entry key="OFFICE_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceOfficeTypeServiceImpl" />
+		</entry>
+		<entry key="TAXPAYER_CLASSIFICATION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTaxpayerClassificationServiceImpl" />
+		</entry>
+		<entry key="ADDRESS_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAddressTypeServiceImpl" />
+		</entry>
+		<entry key="BOOK_OF_ACCOUNT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceBookOfAccountTypeServiceImpl" />
+		</entry>
+		<entry key="INDUSTRY_GROUP">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceIndustryGroupServiceImpl" />
+		</entry>
+		<entry key="COVERAGE_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceCoverageTypeServiceImpl" />
+		</entry>
+		<entry key="FACILITY_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceFacilityTypeServiceImpl" />
+		</entry>
+		<entry key="MARITAL_STATUS">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceMaritalStatusServiceImpl" />
+		</entry>
+		<entry key="SUFFIX">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceSuffixServiceImpl" />
+		</entry>
+		<entry key="TAX_REGIME_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTaxRegimeTypeServiceImpl" />
+		</entry>
+		<entry key="REPORT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReportTypeServiceImpl" />
+		</entry>
+		<entry key="TIN_STATUS">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTinStatusServiceImpl" />
+		</entry>
+		<entry key="TAXPAYER_GROUP">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTaxpayerGroupServiceImpl" />
+		</entry>
+		<entry key="MODULE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceModuleServiceImpl" />
+		</entry>
+		<entry key="REPORT_OUTPUT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReportOutputTypeServiceImpl" />
+		</entry>
+		<entry key="CONTACT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceContactTypeServiceImpl" />
+		</entry>
+		<entry key="CONTACT_PURPOSE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceContactPurposeServiceImpl" />
+		</entry>
+		<entry key="OCCUPATION_CLASSIFICATION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceOccupationClassificationServiceImpl" />
+		</entry>
+		<entry key="REASON_CATEGORY">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReasonCategoryServiceImpl" />
+		</entry>
+		<entry key="TITLE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTitleServiceImpl" />
+		</entry>
+		<entry key="PRINTER">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePrinterServiceImpl" />
+		</entry>
+		<entry key="RELATIONSHIP_CATEGORY">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceRelationshipCategoryServiceImpl" />
+		</entry>
+		<entry key="SPOUSE_EMPLOYMENT_STATUS">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceSpouseEmploymentStatusServiceImpl" />
+		</entry>
+		<entry key="CORRESPONDENCE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceCorrespondenceServiceImpl" />
+		</entry>
+		<entry key="SITE_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceSiteTypeServiceImpl" />
+		</entry>
+		<entry key="APPLICATION_INDICATOR">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceApplicationIndicatorServiceImpl" />
+		</entry>
+		<entry key="AAB_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAabTypeServiceImpl" />
+		</entry>
+		<entry key="ADJUSTMENT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAdjustmentTypeServiceImpl" />
+		</entry>
+		<entry key="CASE_CLASSIFICATION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceCaseClassificationServiceImpl" />
+		</entry>
+		<entry key="ACCOUNTING_YEAR_START_MM">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAccountYearStartMonthServiceImpl" />
+		</entry>
+		<entry key="AAB_OFFICE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAabOfficeServiceImpl" />
+		</entry>
+		<entry key="RECEIPT_INVOICE_KIND">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReceiptInvoiceKindServiceImpl" />
+		</entry>
+		<entry key="ACCOUNT_YEAR_START_MM">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAccountYearStartMonthServiceImpl" />
+		</entry>
+		<entry key="DLN_MODULE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceDlnModuleServiceImpl" />
+		</entry>
+		<entry key="CLAIM_ADDITIONAL_DEDUCTION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceClaimAdditionalDeductionServiceImpl" />
+		</entry>
+		<entry key="PREGEN_TIN_SOURCE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePreGenTinSourceServiceImpl" />
+		</entry>
+		<entry key="RETURN_PROCEDURAL_ERROR">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReturnProcErrorServiceImpl" />
+		</entry>
+		<entry key="BCS_PROCEDURAL_ERROR">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceBcsProcErrorServiceImpl" />
+		</entry>
+		<entry key="INCIDENT_REPORT_VIOLATION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceInciRepViolationServiceImpl" />
+		</entry>
+		<entry key="DOCUMENT_CATEGORY">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceDocumentCategoryServiceImpl" />
+		</entry>
+		<entry key="LEGAL_BASIS">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceLegalBasisServiceImpl" />
+		</entry>
+		<entry key="SOURCE_AGENCY">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceSourceAgencyServiceImpl" />
+		</entry>
+		<entry key="MANNER_OF_ISSUANCE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceMannerOfIssuanceServiceImpl" />
+		</entry>
+		<entry key="TCC_RESTRICTION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTccRestrictionServiceImpl" />
+		</entry>
+	</util:map>
+
+	<util:map id="referenceQueryServiceMap" map-class="java.util.HashMap"
+		key-type="java.lang.String"
+		value-type="com.caista.birapps.etis.reference.service.ReferenceCommandService">
+		<entry key="GENDER">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceGenderServiceImpl" />
+		</entry>
+		<entry key="ACCOUNTING_PERIOD">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAccountingPeriodServiceImpl" />
+		</entry>
+		<entry key="PAYMENT_CHANNEL">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePaymentChannelServiceImpl" />
+		</entry>
+		<entry key="PAYMENT_MODE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePaymentModeServiceImpl" />
+		</entry>
+		<entry key="PAYMENT_MANNER">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePaymentMannerServiceImpl" />
+		</entry>
+		<entry key="PAYMENT_REASON">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePaymentReasonServiceImpl" />
+		</entry>
+		<entry key="ATTACHMENT">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAttachmentServiceImpl" />
+		</entry>
+		<entry key="OFFICE_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceOfficeTypeServiceImpl" />
+		</entry>
+		<entry key="TAXPAYER_CLASSIFICATION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTaxpayerClassificationServiceImpl" />
+		</entry>
+		<entry key="ADDRESS_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAddressTypeServiceImpl" />
+		</entry>
+		<entry key="BOOK_OF_ACCOUNT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceBookOfAccountTypeServiceImpl" />
+		</entry>
+		<entry key="INDUSTRY_GROUP">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceIndustryGroupServiceImpl" />
+		</entry>
+		<entry key="COVERAGE_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceCoverageTypeServiceImpl" />
+		</entry>
+		<entry key="FACILITY_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceFacilityTypeServiceImpl" />
+		</entry>
+		<entry key="MARITAL_STATUS">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceMaritalStatusServiceImpl" />
+		</entry>
+		<entry key="SUFFIX">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceSuffixServiceImpl" />
+		</entry>
+		<entry key="TAX_REGIME_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTaxRegimeTypeServiceImpl" />
+		</entry>
+		<entry key="REPORT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReportTypeServiceImpl" />
+		</entry>
+		<entry key="TIN_STATUS">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTinStatusServiceImpl" />
+		</entry>
+		<entry key="TAXPAYER_GROUP">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTaxpayerGroupServiceImpl" />
+		</entry>
+		<entry key="MODULE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceModuleServiceImpl" />
+		</entry>
+		<entry key="REPORT_OUTPUT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReportOutputTypeServiceImpl" />
+		</entry>
+		<entry key="CONTACT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceContactTypeServiceImpl" />
+		</entry>
+		<entry key="CONTACT_PURPOSE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceContactPurposeServiceImpl" />
+		</entry>
+		<entry key="OCCUPATION_CLASSIFICATION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceOccupationClassificationServiceImpl" />
+		</entry>
+		<entry key="REASON_CATEGORY">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReasonCategoryServiceImpl" />
+		</entry>
+		<entry key="TITLE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTitleServiceImpl" />
+		</entry>
+		<entry key="CASE_CLASSIFICATION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceCaseClassificationServiceImpl" />
+		</entry>
+		<entry key="PRINTER">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePrinterServiceImpl" />
+		</entry>
+		<entry key="RELATIONSHIP_CATEGORY">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceRelationshipCategoryServiceImpl" />
+		</entry>
+		<entry key="SPOUSE_EMPLOYMENT_STATUS">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceSpouseEmploymentStatusServiceImpl" />
+		</entry>
+
+		<entry key="CORRESPONDENCE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceCorrespondenceServiceImpl" />
+		</entry>
+		<entry key="SITE_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceSiteTypeServiceImpl" />
+		</entry>
+		<entry key="APPLICATION_INDICATOR">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceApplicationIndicatorServiceImpl" />
+		</entry>
+		<entry key="AAB_TYPE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAabTypeServiceImpl" />
+		</entry>
+		<entry key="AAB_OFFICE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAabOfficeServiceImpl" />
+		</entry>
+		<entry key="RECEIPT_INVOICE_KIND">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReceiptInvoiceKindServiceImpl" />
+		</entry>
+		<entry key="ACCOUNT_YEAR_START_MM">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceAccountYearStartMonthServiceImpl" />
+		</entry>
+		<entry key="DLN_MODULE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceDlnModuleServiceImpl" />
+		</entry>
+		<entry key="CLAIM_ADDITIONAL_DEDUCTION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceClaimAdditionalDeductionServiceImpl" />
+		</entry>
+		<entry key="PREGEN_TIN_SOURCE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferencePreGenTinSourceServiceImpl" />
+		</entry>
+		<entry key="RETURN_PROCEDURAL_ERROR">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceReturnProcErrorServiceImpl" />
+		</entry>
+		<entry key="BCS_PROCEDURAL_ERROR">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceBcsProcErrorServiceImpl" />
+		</entry>
+		<entry key="INCIDENT_REPORT_VIOLATION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceInciRepViolationServiceImpl" />
+		</entry>
+		<entry key="DOCUMENT_CATEGORY">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceDocumentCategoryServiceImpl" />
+		</entry>
+		<entry key="LEGAL_BASIS">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceLegalBasisServiceImpl" />
+		</entry>
+		<entry key="SOURCE_AGENCY">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceSourceAgencyServiceImpl" />
+		</entry>
+		<entry key="MANNER_OF_ISSUANCE">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceMannerOfIssuanceServiceImpl" />
+		</entry>
+		<entry key="TCC_RESTRICTION">
+			<bean
+				class="com.caista.birapps.etis.reference.service.ReferenceTccRestrictionServiceImpl" />
+		</entry>
+	</util:map>
+
+	<util:map id="maintenanceServiceMap" map-class="java.util.HashMap"
+		key-type="java.lang.String"
+		value-type="com.caista.birapps.etis.maintenance.service.AuditableMaintenanceService">
+		<entry key="ACCREDITED_PRINTER">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintAccreditedPrinterServiceImpl" />
+		</entry>
+		<entry key="ALPHANUMERIC_TAX_CODE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintAlphanumericTaxCodeServiceImpl" />
+		</entry>
+		<entry key="APPLICATION_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintApplicationTypeServiceImpl" />
+		</entry>
+		<entry key="ATTACHMENT_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintAttachmentTypeServiceImpl" />
+		</entry>
+		<entry key="AUTHORISATION_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintAuthorisationTypeServiceImpl" />
+		</entry>
+		<entry key="BANK">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintBankServiceImpl" />
+		</entry>
+		<entry key="BARANGAY">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintBarangayServiceImpl" />
+		</entry>
+		<entry key="BOOK_OF_ACCOUNT">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintBookOfAccountServiceImpl" />
+		</entry>
+		<entry key="CASE_EVENT">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintCaseEventServiceImpl" />
+		</entry>
+		<entry key="CASE_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintCaseTypeServiceImpl" />
+		</entry>
+		<entry key="CITY_MUNICIPALITY">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintCityMunicipalityServiceImpl" />
+		</entry>
+		<entry key="COUNTRY">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintCountryServiceImpl" />
+		</entry>
+		<entry key="FORM_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintFormTypeServiceImpl" />
+		</entry>
+		<entry key="IDENTIFIER_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintIdentifierTypeServiceImpl" />
+		</entry>
+		<entry key="INCENTIVE_CLASSIFICATION">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintIncentiveClassificationServiceImpl" />
+		</entry>
+		<entry key="INCENTIVE_GRANTED">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintIncentiveGrantedServiceImpl" />
+		</entry>
+		<entry key="INCENTIVE_LEGAL_BASIS">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintIncentiveLegalBasisServiceImpl" />
+		</entry>
+		<entry key="INCENTIVE_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintIncentiveTypeServiceImpl" />
+		</entry>
+		<entry key="INDUSTRY_CLASSIFICATION">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintIndustryClassificationServiceImpl" />
+		</entry>
+		<entry key="OFFICE_CLASS_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintOfficeClassTypeServiceImpl" />
+		</entry>
+		<entry key="PROVINCE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintProvinceServiceImpl" />
+		</entry>
+		<entry key="PSIC_CLASSIFICATION">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintPsicClassificationServiceImpl" />
+		</entry>
+		<entry key="PSIC_GROUP">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintPsicGroupServiceImpl" />
+		</entry>
+
+		<entry key="REASON">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintReasonServiceImpl" />
+		</entry>
+
+		<entry key="RECEIPT_INVOICE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintReceiptInvoiceServiceImpl" />
+		</entry>
+		<entry key="REGION">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintRegionServiceImpl" />
+		</entry>
+
+		<entry key="RELATIONSHIP_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintRelationshipTypeServiceImpl" />
+		</entry>
+		<entry key="REPORT_LIST">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintReportListServiceImpl" />
+		</entry>
+		<entry key="SPECIAL_CODE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintSpecialCodeServiceImpl" />
+		</entry>
+		<entry key="STATUS">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintStatusServiceImpl" />
+		</entry>
+		<entry key="TASK">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintTaskServiceImpl" />
+		</entry>
+		<entry key="TASK_EMAIL_GROUP">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintTaskEmailGroupServiceImpl" />
+		</entry>
+		<entry key="TAX_FORM_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintTaxFormTypeServiceImpl" />
+		</entry>
+		<entry key="TAXPAYER_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintTaxpayerTypeServiceImpl" />
+		</entry>
+		<entry key="TAX_TYPE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintTaxTypeServiceImpl" />
+		</entry>
+
+		<entry key="ZIPCODE">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintZipCodeServiceImpl" />
+		</entry>
+
+		<entry key="OFFICE_DIVISION">
+			<bean
+				class="com.caista.birapps.etis.maintenance.service.MaintOfficeDivisionServiceImpl" />
+		</entry>
+	</util:map>
+
+
+</beans>

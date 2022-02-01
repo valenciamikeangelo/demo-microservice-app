@@ -1,0 +1,10 @@
+etis-domain-audit/target/
+etis-domain-audit/.classpath
+etis-domain-audit/.project
+etis-domain-audit/.settings/
+etis-domain-audit/bin/
+target/
+.classpath
+.project
+.settings
+.bin
